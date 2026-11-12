@@ -1,6 +1,6 @@
 # Hey Emacs, this is a -*- makefile -*-
 #----------------------------------------------------------------------------
-# WinAVR Makefile Template written by Eric B. Weddington, Jörg Wunsch, et al.
+# WinAVR Makefile Template written by Eric B. Weddington, Jï¿½rg Wunsch, et al.
 #  >> Modified for use with the LUFA project. <<
 #
 # Released to the Public Domain
@@ -93,7 +93,6 @@ BOARD  = USER
 #     software delays.
 F_CPU = 16000000
 
-
 # Input clock frequency.
 #     This will define a symbol, F_CLOCK, in all source code files equal to the 
 #     input clock frequency (before any prescaling is performed) in Hz. This value may
@@ -136,6 +135,9 @@ LUFA_OPTS += -D USE_STATIC_OPTIONS="(USB_DEVICE_OPT_FULLSPEED | USB_OPT_REG_ENAB
 #LUFA_OPTS += -D NO_DEVICE_SELF_POWER
 LUFA_OPTS += -D NO_DEVICE_REMOTE_WAKEUP
 LUFA_OPTS += -D NO_INTERNAL_SERIAL
+LUFA_OPTS += -D F_USB=$(F_CPU)
+LUFA_OPTS += -D ARCH=0
+LUFA_OPTS += -D ARCH_AVR8=0
 
 # Create the LUFA source path variables by including the LUFA root makefile
 include $(LUFA_PATH)/LUFA/makefile

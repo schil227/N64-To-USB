@@ -89,7 +89,7 @@ USB_ClassInfo_HID_Device_t Joystick_HID_Interface = {
 /** Circular buffer to hold data from the serial port before it is sent to the host. */
 RingBuff_t USARTtoUSB_Buffer;
 
-USB_JoystickReport_Data_t joyReport = { 0, 0, 0, 0, 0, 0, 0, 0 };
+USB_JoystickReport_Data_t joyReport = { 0, 0, 0, 0 };
 
 #define LED_ON_TICKS 2000	/* Number of ticks to leave LEDs on */
 volatile int led1_ticks = 0;

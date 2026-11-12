@@ -37,6 +37,12 @@
 #define _ARDUINO_KEYBOARD_H_
 
 /* Includes: */
+#include <LUFA/Version.h>
+#include <LUFA/Drivers/USB/USB.h>
+#include <LUFA/Drivers/Board/LEDs.h>
+#include <LUFA/Drivers/Peripheral/Serial.h>
+#include <LUFA/Drivers/USB/Class/CDC.h>
+
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <avr/interrupt.h>
@@ -46,12 +52,6 @@
 
 #include "Lib/LightweightRingBuff.h"
 
-#include <LUFA/Version.h>
-#include <LUFA/Drivers/Board/LEDs.h>
-#include <LUFA/Drivers/Peripheral/Serial.h>
-#include <LUFA/Drivers/USB/USB.h>
-#include <LUFA/Drivers/USB/Class/CDC.h>
-
 /** Type define for the joystick HID report structure, for creating and sending HID reports to the host PC.
  *  This mirrors the layout described to the host in the HID report descriptor, in Descriptors.c.
  */
@@ -59,12 +59,7 @@ typedef struct {
     int8_t  x1; /**< Current absolute joystick X position, as a signed 8-bit integer */
     int8_t  y1; /**< Current absolute joystick Y position, as a signed 8-bit integer */
     uint8_t button1a; /**< Bit mask of the currently pressed joystick buttons */
-	uint8_t button1b; /**< Bit mask of the currently pressed joystick buttons */
-	
-	int8_t  x2; /**< Current absolute joystick X position, as a signed 8-bit integer */
-    int8_t  y2; /**< Current absolute joystick Y position, as a signed 8-bit integer */
-    uint8_t button2a; /**< Bit mask of the currently pressed joystick buttons */
-	uint8_t button2b; /**< Bit mask of the currently pressed joystick buttons */
+	  uint8_t button1b; /**< Bit mask of the currently pressed joystick buttons */
 } USB_JoystickReport_Data_t;
 /* Macros: */
 /** LED mask for the library LED driver, to indicate TX activity. */

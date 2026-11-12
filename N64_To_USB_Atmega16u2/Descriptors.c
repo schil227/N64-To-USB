@@ -43,7 +43,7 @@
  *  the device will send, and what it may be sent back from the host. Refer to the HID specification for
  *  more details on HID report descriptors.
  */
-USB_Descriptor_HIDReport_Datatype_t PROGMEM JoystickReport[] =
+USB_Descriptor_HIDReport_Datatype_t PROGMEM const JoystickReport[] =
 {
 	0x05, 0x01,          /* Usage Page (Generic Desktop)                       */
 	0x09, 0x04,          /* Usage (Joystick)                                   */
@@ -53,25 +53,20 @@ USB_Descriptor_HIDReport_Datatype_t PROGMEM JoystickReport[] =
 	0x05, 0x01,          /*     Usage Page (Generic Desktop)                   */
 	0x09, 0x30,          /*     Usage (X)                                      */
 	0x09, 0x31,          /*     Usage (Y)                                      */
-	0x09, 0x33,          /*     Usage (Rx)                                     */
-	0x09, 0x34,          /*     Usage (Ry)                                     */
 	0x15, 0x9c,          /*     Logical Minimum (-100)                         */
 	0x25, 0x64,          /*     Logical Maximum (100)                          */
 	0x75, 0x08,          /*     Report Size (8)                                */
-	0x95, 0x04,          /*     Report Count (4)                               */
+	0x95, 0x02,          /*     Report Count (2)                               */
 	0x81, 0x82,          /*     Input (Data, Variable, Absolute, Volatile)     */
 	0xc0,                /*   End Collection                                   */
 	0x05, 0x09,          /*   Usage Page (Button)                              */
 	0x19, 0x01,          /*   Usage Minimum (Button 1)                         */
-	0x29, 0x20,          /*   Usage Maximum (Button 32)                        */
+	0x29, 0x10,          /*   Usage Maximum (Button 16)                        */
 	0x15, 0x00,          /*   Logical Minimum (0)                              */
 	0x25, 0x01,          /*   Logical Maximum (1)                              */
 	0x75, 0x01,          /*   Report Size (1)                                  */
-	0x95, 0x20,          /*   Report Count (32)                                */
+	0x95, 0x10,          /*   Report Count (16)                                */
 	0x81, 0x02,          /*   Input (Data, Variable, Absolute)                 */
-//  0x75, 0x06,          /*   Report Size (6)                                  */
-//  0x95, 0x01,          /*   Report Count (1)                                 */
-//  0x81, 0x01,          /*   Input (Constant)                                 */
 	0xc0                 /* End Collection                                     */
 };
 
@@ -80,7 +75,7 @@ USB_Descriptor_HIDReport_Datatype_t PROGMEM JoystickReport[] =
  *  number of device configurations. The descriptor is read out by the USB host when the enumeration
  *  process begins.
  */
-USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
+USB_Descriptor_Device_t PROGMEM const DeviceDescriptor =
 {
 	.Header                 = {.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
 		
@@ -107,7 +102,7 @@ USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
  *  and endpoints. The descriptor is read out by the USB host during the enumeration process when selecting
  *  a configuration so that the host may correctly communicate with the USB device.
  */
-USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
+USB_Descriptor_Configuration_t PROGMEM const ConfigurationDescriptor =
 {
 	.Config = 
 		{
@@ -135,19 +130,19 @@ USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
 				
 			.Class                  = 0x03,
 			.SubClass               = 0x00,
-			.Protocol               = HID_NON_BOOT_PROTOCOL,
+			.Protocol               = HID_CSCP_NonBootProtocol,
 				
 			.InterfaceStrIndex      = NO_DESCRIPTOR
 		},
 
 	.HID_JoystickHID = 
 		{
-			.Header                 = {.Size = sizeof(USB_HID_Descriptor_t), .Type = DTYPE_HID},
+			.Header                 = {.Size = sizeof(USB_HID_Descriptor_HID_t), .Type = HID_DTYPE_HID},
 			
 			.HIDSpec                = VERSION_BCD(01.11),
 			.CountryCode            = 0x00,
 			.TotalReportDescriptors = 1,
-			.HIDReportType          = DTYPE_Report,
+			.HIDReportType          = HID_DTYPE_Report,
 			.HIDReportLength        = sizeof(JoystickReport)
 		},
 
@@ -155,7 +150,7 @@ USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
 		{
 			.Header                 = {.Size = sizeof(USB_Descriptor_Endpoint_t), .Type = DTYPE_Endpoint},
 			
-			.EndpointAddress        = (ENDPOINT_DESCRIPTOR_DIR_IN | JOYSTICK_EPNUM),
+			.EndpointAddress        = (ENDPOINT_DIR_IN | JOYSTICK_EPNUM),
 			.Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
 			.EndpointSize           = JOYSTICK_EPSIZE,
 			.PollingIntervalMS      = 0x0A
@@ -166,7 +161,7 @@ USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
  *  the string descriptor with index 0 (the first index). It is actually an array of 16-bit integers, which indicate
  *  via the language ID table available at USB.org what languages the device supports for its string descriptors.
  */
-USB_Descriptor_String_t PROGMEM LanguageString =
+USB_Descriptor_String_t PROGMEM const LanguageString =
 {
 	.Header                 = {.Size = USB_STRING_LEN(1), .Type = DTYPE_String},
 		
@@ -177,7 +172,7 @@ USB_Descriptor_String_t PROGMEM LanguageString =
  *  form, and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
  *  Descriptor.
  */
-USB_Descriptor_String_t PROGMEM ManufacturerString =
+USB_Descriptor_String_t PROGMEM const ManufacturerString =
 {
 	.Header                 = {.Size = USB_STRING_LEN(7), .Type = DTYPE_String},
 		
@@ -188,7 +183,7 @@ USB_Descriptor_String_t PROGMEM ManufacturerString =
  *  and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
  *  Descriptor.
  */
-USB_Descriptor_String_t PROGMEM ProductString =
+USB_Descriptor_String_t PROGMEM const ProductString =
 {
 	.Header                 = {.Size = USB_STRING_LEN(16), .Type = DTYPE_String},
 		
@@ -203,7 +198,8 @@ USB_Descriptor_String_t PROGMEM ProductString =
  */
 uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
                                     const uint8_t wIndex,
-                                    void** const DescriptorAddress)
+                                    const void** const DescriptorAddress
+				    )
 {
 	const uint8_t  DescriptorType   = (wValue >> 8);
 	const uint8_t  DescriptorNumber = (wValue & 0xFF);
@@ -239,11 +235,11 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 			}
 			
 			break;
-		case DTYPE_HID: 
+		case HID_DTYPE_HID: 
 			Address = (void*)&ConfigurationDescriptor.HID_JoystickHID;
-			Size    = sizeof(USB_HID_Descriptor_t);
+			Size    = sizeof(USB_HID_Descriptor_HID_t);
 			break;
-		case DTYPE_Report: 
+		case HID_DTYPE_Report: 
 			Address = (void*)&JoystickReport;
 			Size    = sizeof(JoystickReport);
 			break;
