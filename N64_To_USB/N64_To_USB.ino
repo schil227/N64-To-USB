@@ -31,7 +31,7 @@
 #define N64_LOW DDRD |= 0x04
 #define N64_QUERY (PIND & 0x04)
 
-// 8 bytes of data that we get from the controller
+// 4 bytes of data that we get from the controller
 struct state{
     char stick_x;
     char stick_y;
